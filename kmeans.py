@@ -6,6 +6,7 @@ import matplotlib.pyplot as plt
 import matplotlib.ticker as mtick
 from sklearn import metrics
 from yellowbrick.cluster import KElbowVisualizer, SilhouetteVisualizer
+from sklearn.manifold import TSNE
 
 # metrics.silhouette_score(X, labels, metric='euclidean')
 def kplot(x, krange, incre, title, filnam,title_sil,filnam_sil):
@@ -43,12 +44,20 @@ def elbowplot(x, k, metric, title, fignam, elbow=True):
     visualizer.show(outpath=fignam)
     return
 
+
+
 def main():
     xtrain1, xtest1, ytrain1, ytest1, xtrain2, xtest2, ytrain2, ytest2 = load_data()
     km= KMeans(4)
     visualizer = SilhouetteVisualizer(km, colors='yellowbrick')
     visualizer.fit(xtrain2)
     visualizer.show()
+    plt.clf()
+    fig, ax=plt.subplots()
+    tsne= TSNE()
+    Y=tsne.fit_transform(xtrain2)  
+    ax.scatter(Y[:, 0], Y[:, 1], c='b')
+    plt.show()
     # elbowplot(xtrain2,20,"distortion","K Means Clustering Distortion vs Number of Clusters dat2","figs/kmeans/kmeans_elbow_dat2.png")
     # elbowplot(xtrain1,100,"distortion","K Means Clustering Distortion vs Number of Clusters dat1","figs/kmeans/kmeans_elbow_dat1.png")
     # elbowplot(xtrain2,20,"silhouette","K Means Clustering Silhouette Score vs Number of Clusters dat2","figs/kmeans/kmeans_silhouette_dat2.png", elbow=False)
