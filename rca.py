@@ -25,12 +25,8 @@ def main():
     # rec_err_plot(xtrain2,18, "Reconstruction Error dat 2", "figs/ica/recon_err_dat2.png")
     # rec_err_plot(xtrain1,55, "Reconstruction Error dat 1", "figs/ica/recon_err_dat1.png")
     #dat1: 36, dat2: 3
-    # rng = np.random.RandomState(42)
-    # X = rng.rand(100, 10000)
-    # transformer = GaussianRandomProjection(random_state=rng)
-    # X_new = transformer.fit_transform(X)
-    # print(X_new.shape)
-    rec_err_plot(xtrain2,18, "Random Projection Reconstruction Error dat2")
+    rec_err_plot(xtrain2,18, "Random Projection Reconstruction Error dat2", "figs/rca/recondat2.png")
+    rec_err_plot(xtrain1,54, "Random Projection Reconstruction Error dat1", "figs/rca/recondat1.png")
 
 def inverse_transform(x,transformer):
     W = transformer.components_
@@ -39,7 +35,7 @@ def inverse_transform(x,transformer):
     return reconstructed
 
 
-def rec_err_plot(x, comps, title, reps=10):
+def rec_err_plot(x, comps, title,filnam, reps=10):
     components = np.arange(1,comps+1,1)
     err = []
     error= np.ones((comps,reps))
@@ -55,14 +51,19 @@ def rec_err_plot(x, comps, title, reps=10):
         ax.plot(components, temp)
     plt.title(title)
     plt.xlabel("n_components")
-    plt.ylabel("Mean Kurtosis")
+    plt.ylabel("Reconstruction Error")
     ax.grid(which='major', linestyle='-', linewidth='1', color='black')
     ax.grid(which='minor', linestyle=':', linewidth='0.5', color='black')
     ax.minorticks_on()
     meanerr = np.mean(error,axis=1)
-    stderr = np.mean(error,axis=1)
-    print(meanerr)
-    plt.show()
+    stderr = np.std(error,axis=1)
+    print(np.mean(stderr))
+    ax.plot(components,meanerr,'o-', color="r",label="mean reconstruction error",linewidth=4.0)
+    plt.fill_between(components, meanerr - stderr,
+                     meanerr + stderr, alpha=0.1,
+                     color="r")
+    plt.legend()
+    plt.savefig(filnam)
 
 
 if __name__ == '__main__':

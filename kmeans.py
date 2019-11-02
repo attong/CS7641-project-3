@@ -44,23 +44,33 @@ def elbowplot(x, k, metric, title, fignam, elbow=True):
     visualizer.show(outpath=fignam)
     return
 
-
+def score(x,k,y):
+    clusters = np.arange(2,k+1,1)
+    for j in range(5):
+        homo=[]
+        comp=[]
+        for i in clusters:
+            km = KMeans(n_clusters=i)
+            ytest=km.fit_predict(x)
+            homo.append(metrics.adjusted_rand_score(y,ytest))
+            comp.append(metrics.adjusted_mutual_info_score(y,ytest))
+        plt.plot(clusters,homo,label="adjusted rand")
+        plt.plot(clusters,comp,label="ami")
+    plt.legend()
+    plt.show()
 
 def main():
     xtrain1, xtest1, ytrain1, ytest1, xtrain2, xtest2, ytrain2, ytest2 = load_data()
     km= KMeans(4)
     visualizer = SilhouetteVisualizer(km, colors='yellowbrick')
-    visualizer.fit(xtrain2)
-    visualizer.show()
-    plt.clf()
-    fig, ax=plt.subplots()
-    tsne= TSNE()
-    Y=tsne.fit_transform(xtrain2)  
-    ax.scatter(Y[:, 0], Y[:, 1], c='b')
-    plt.show()
+    # visualizer.fit(xtrain1)
+    # visualizer.show()
+    # ytest = km.fit_predict(xtrain1)
+    # print(metrics.homogeneity_score(ytrain1,ytest))
+    score(xtrain2,20,ytrain2)
     # elbowplot(xtrain2,20,"distortion","K Means Clustering Distortion vs Number of Clusters dat2","figs/kmeans/kmeans_elbow_dat2.png")
     # elbowplot(xtrain1,100,"distortion","K Means Clustering Distortion vs Number of Clusters dat1","figs/kmeans/kmeans_elbow_dat1.png")
-    # elbowplot(xtrain2,20,"silhouette","K Means Clustering Silhouette Score vs Number of Clusters dat2","figs/kmeans/kmeans_silhouette_dat2.png", elbow=False)
+    # elbowplot(xtrain2,40,"silhouette","K Means Clustering Silhouette Score vs Number of Clusters dat2","figs/kmeans/kmeans_silhouette_dat2.png", elbow=False)
     # elbowplot(xtrain1,100,"silhouette","K Means Clustering Silhouette Score vs Number of Clusters dat1","figs/kmeans/kmeans_silhouette_dat1.png",elbow=False)
     # elbowplot(xtrain2,20,"calinski_harabasz","K Means Clustering Calinski Harabasz Score vs Number of Clusters dat2","figs/kmeans/kmeans_calinski_dat2.png", elbow=False)
     # elbowplot(xtrain1,100,"calinski_harabasz","K Means Clustering Calinski Harabasz Score vs Number of Clusters dat1","figs/kmeans/kmeans_calinski_dat1.png",elbow=False)
