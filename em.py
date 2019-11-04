@@ -121,13 +121,13 @@ def bic_model_selection(x,kval, title, filnam,ylabel):
 def main():
     xtrain1, xtest1, ytrain1, ytest1, xtrain2, xtest2, ytrain2, ytest2 = load_data()
     vary_k(xtrain2, 20, ytrain2, "dat2")
-    # vary_k(xtrain1, 50, ytrain1, "dat1")
-    # bic_model_selection(xtrain2,20, "BIC per model dat2","figs/em/bic_dat2.png","BIC Score" )
-    # bic_model_selection(xtrain2,20, "AIC per model dat2","figs/em/aic_dat2.png","AIC Score" )
-    # bic_model_selection(xtrain2,20, "Average Log likelihood per model dat2","figs/em/score_dat2.png","Average Log Likelihood Score" )
-    # bic_model_selection(xtrain1,100, "BIC per model dat1","figs/em/bic_dat1.png","BIC Score" )
-    # bic_model_selection(xtrain1,100, "AIC per model dat1","figs/em/aic_dat1.png","AIC Score" )
-    # bic_model_selection(xtrain1,100, "Average Log likelihood per model dat1","figs/em/score_dat1.png","Average Log Likelihood Score" )
+    vary_k(xtrain1, 50, ytrain1, "dat1")
+    bic_model_selection(xtrain2,20, "BIC per model dat2","figs/em/bic_dat2.png","BIC Score" )
+    bic_model_selection(xtrain2,20, "AIC per model dat2","figs/em/aic_dat2.png","AIC Score" )
+    bic_model_selection(xtrain2,20, "Average Log likelihood per model dat2","figs/em/score_dat2.png","Average Log Likelihood Score" )
+    bic_model_selection(xtrain1,100, "BIC per model dat1","figs/em/bic_dat1.png","BIC Score" )
+    bic_model_selection(xtrain1,100, "AIC per model dat1","figs/em/aic_dat1.png","AIC Score" )
+    bic_model_selection(xtrain1,100, "Average Log likelihood per model dat1","figs/em/score_dat1.png","Average Log Likelihood Score" )
 
 if __name__ == '__main__':
     np.random.seed()

@@ -45,11 +45,11 @@ def normalize(train,test):
     test=scaler.transform(test)
     return train,test
     
-def load_data():
+def load_data(test_size=0.2):
     df, rev = load_dat1()
     df2, y2 = load_dat2()
-    xtrain1, xtest1, ytrain1, ytest1= train_test_split(df,rev,test_size=0.2)
-    xtrain2, xtest2, ytrain2, ytest2= train_test_split(df2,y2,test_size=0.2)
+    xtrain1, xtest1, ytrain1, ytest1= train_test_split(df,rev,test_size=test_size)
+    xtrain2, xtest2, ytrain2, ytest2= train_test_split(df2,y2,test_size=test_size)
     xtrain1, xtest1 = normalize(xtrain1,xtest1)
     xtrain2, xtest2 = normalize(xtrain2,xtest2)
     return xtrain1, xtest1, ytrain1, ytest1, xtrain2, xtest2, ytrain2, ytest2
